@@ -1,39 +1,63 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.UUID;
 
 public class Venda {
-    private Cliente cliente; // Cliente associado à venda
-    private ArrayList<Produto> produtos; // Lista de produtos vendidos
+    private String id;
+    private Cliente cliente;
+    private Vendedor vendedor;
+    private ArrayList<Produto> produtos;
+    private LocalDate dataVenda;
+    private String metodoPagamento;
+    private double valorTotal;
+    private boolean finalizada;
 
-    // Construtor da classe Venda que recebe um cliente como parâmetro
-    public Venda(Cliente cliente) {
-        this.cliente = cliente; // Define o cliente da venda
-        this.produtos = new ArrayList<>(); // Inicializa a lista de produtos
+    public Venda(Cliente cliente, Vendedor vendedor, String metodoPagamento) {
+        this.id = UUID.randomUUID().toString();
+        this.cliente = cliente;
+        this.vendedor = vendedor;
+        this.produtos = new ArrayList<>();
+        this.dataVenda = LocalDate.now();
+        this.metodoPagamento = metodoPagamento;
+        this.valorTotal = 0.0;
+        this.finalizada = false;
     }
 
-    // Método para adicionar um produto à lista de produtos da venda
     public void adicionarProduto(Produto produto) {
-        produtos.add(produto);
+        if (!finalizada) {
+            produtos.add(produto);
+            this.valorTotal += produto.getPreco();
+        } else {
+            System.out.println("Não é possível adicionar produtos a uma venda finalizada.");
+        }
     }
 
-    // Método para obter o cliente associado à venda
-    public Cliente getCliente() {
-        return cliente;
+    public void finalizarVenda() {
+        if (!produtos.isEmpty()) {
+            this.finalizada = true;
+            System.out.println("Venda finalizada com sucesso!");
+        } else {
+            System.out.println("A venda não pode ser finalizada sem produtos.");
+        }
     }
 
-    // Método para obter a lista de produtos vendidos
-    public ArrayList<Produto> getProdutos() {
-        return produtos;
+    public boolean isFinalizada() {
+        return finalizada;
     }
 
-    // Método sobrescrito para representar a venda como uma string
     @Override
     public String toString() {
-        // Usa StringBuilder para construir uma string contendo os detalhes da venda
-        StringBuilder detalhes = new StringBuilder("Venda para " + cliente.getNome() + ":\n");
+        StringBuilder detalhes = new StringBuilder("Venda ID: " + id + "\n");
+        detalhes.append("Data: " + dataVenda + "\n");
+        detalhes.append("Cliente: " + cliente.getNome() + "\n");
+        detalhes.append("Vendedor: " + vendedor.getNome() + "\n");
+        detalhes.append("Método de Pagamento: " + metodoPagamento + "\n");
+        detalhes.append("Status: " + (finalizada ? "Finalizada" : "Pendente") + "\n");
+        detalhes.append("Produtos: \n");
         for (Produto p : produtos) {
-            detalhes.append(p.toString()).append("\n"); // Adiciona os produtos vendidos à string
+            detalhes.append("  - " + p.toString() + "\n");
         }
-        return detalhes.toString(); // Retorna a string formatada da venda
+        detalhes.append("Valor Total: R$" + valorTotal + "\n");
+        return detalhes.toString();
     }
 }
-
