@@ -36,8 +36,11 @@ public class SistemaDeVendas {
             System.out.println("6 - Lista de Produtos no Estoque");
             System.out.println("7 - Relação de Clientes");
             System.out.println("8 - Relação de Vendedores");
-            System.out.println("9 - Sair");
+            System.out.println("9 - Editar Produto");
+            System.out.println("10 - Excluir Produto");
+            System.out.println(" - Sair");
             System.out.print("Escolha uma opção: ");
+           
 
             try {
                 opcao = scanner.nextInt();
@@ -208,13 +211,67 @@ public class SistemaDeVendas {
                         System.out.printf("%-5d %-20s %-15s %-20s %-30s\n", i + 1, v.getNome(), v.getCpf(), v.getDepartamento(), v.getContato());
                     }
                     break;
-                case 9:
+                 case 9:
+                    System.out.println("Selecione um produto para editar:");
+                    estoque.listarProdutos();
+                    System.out.print("Digite o número do produto: ");
+                    int indiceEditar = scanner.nextInt() - 1;
+                    scanner.nextLine();
+
+                    if (indiceEditar >= 0 && indiceEditar < estoque.getProdutos().size()) {
+                        Produto produtoEditar = estoque.getProdutos().get(indiceEditar);
+
+                        System.out.print("Novo Nome (ou Enter para manter): ");
+                        String novoNome = scanner.nextLine();
+                        if (!novoNome.isEmpty()) produtoEditar.setNome(novoNome);
+
+                        System.out.print("Nova Marca (ou Enter para manter): ");
+                        String novaMarca = scanner.nextLine();
+                        if (!novaMarca.isEmpty()) produtoEditar.setMarca(novaMarca);
+
+                        System.out.print("Nova Descrição (ou Enter para manter): ");
+                        String novaDescricao = scanner.nextLine();
+                        if (!novaDescricao.isEmpty()) produtoEditar.setDescricao(novaDescricao);
+
+                        System.out.print("Novo Preço (ou -1 para manter): ");
+                        double novoPreco = scanner.nextDouble();
+                        if (novoPreco >= 0) produtoEditar.setPreco(novoPreco);
+
+                        System.out.print("Nova Quantidade (ou -1 para manter): ");
+                        int novaQuantidade = scanner.nextInt();
+                        scanner.nextLine();
+                        if (novaQuantidade >= 0) produtoEditar.setQuantidade(novaQuantidade);
+
+                        System.out.println("Produto atualizado com sucesso!");
+                    } else {
+                        System.out.println("Índice inválido.");
+                    }
+                    break;
+
+                case 10:
+                    System.out.println("Selecione um produto para excluir:");
+                    estoque.listarProdutos();
+                    System.out.print("Digite o número do produto: ");
+                    int indiceExcluir = scanner.nextInt() - 1;
+                    scanner.nextLine();
+
+                    if (indiceExcluir >= 0 && indiceExcluir < estoque.getProdutos().size()) {
+                        Produto produtoExcluir = estoque.getProdutos().get(indiceExcluir);
+                        produtoExcluir.excluirProduto();
+                        System.out.println("Produto excluído com sucesso!");
+                    } else {
+                        System.out.println("Índice inválido.");
+                    }
+                    break;
+
+                case 11:
                     System.out.println("Encerrando o sistema...");
                     break;
+
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-        } while (opcao != 9);
+        } while (opcao != 11);
         scanner.close();
     }
 }
