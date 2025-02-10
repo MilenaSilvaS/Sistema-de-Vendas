@@ -13,8 +13,8 @@ public class SistemaDeVendas {
 
         // Produtos pré-cadastrados com quantidades
         estoque.adicionarProduto(new Produto("RQ001", "Ácido Sulfúrico", "Quimex", LocalDate.of(2024, 1, 10), LocalDate.of(2026, 1, 10), "Ácido forte usado em laboratório", 150.00, 10));
-        estoque.adicionarProduto(new Produto("RQ002", "Hidróxido de Sódio", "LabQuim", LocalDate.of(2023, 12, 5), LocalDate.of(2025, 12, 5), "Base forte utilizada em experimentos químicos", 80.00, 15));
-        estoque.adicionarProduto(new Produto("RQ003", "Ethanol", "BioQuim", LocalDate.of(2023, 5, 15), LocalDate.of(2024, 5, 15), "Álcool usado em análises químicas", 50.00, 20));
+        estoque.adicionarProduto(new Produto("RQ002", "Hidróxido de Sódio", "LabQuim", LocalDate.of(2023, 12, 5), LocalDate.of(2025, 12, 5), "Base forte utilizada em experimentos químicos", 200.00, 15));
+        estoque.adicionarProduto(new Produto("RQ003", "Ethanol", "BioQuim", LocalDate.of(2023, 5, 15), LocalDate.of(2024, 5, 15), "Álcool usado em análises químicas", 100.00, 20));
 
         // Clientes pré-cadastrados
         clientes.add(new Cliente("Leandro", "Rua A, 123", "123.456.789-00", "Laboratório Químico"));
@@ -268,20 +268,15 @@ public class SistemaDeVendas {
                     break;
 
                 case 10:
-                    System.out.println("Selecione um produto para excluir:");
-                    estoque.listarProdutos();
-                    System.out.print("Digite o número do produto: ");
-                    int indiceExcluir = scanner.nextInt() - 1;
-                    scanner.nextLine();
+                System.out.println("Selecione um produto para excluir:");
+                estoque.listarProdutos();
+                System.out.print("Digite o número do produto: ");
+                int indiceExcluir = scanner.nextInt() - 1;
+                scanner.nextLine();
 
-                    if (indiceExcluir >= 0 && indiceExcluir < estoque.getProdutos().size()) {
-                        Produto produtoExcluir = estoque.getProdutos().get(indiceExcluir);
-                        produtoExcluir.excluirProduto();
-                        System.out.println("Produto excluído com sucesso!");
-                    } else {
-                        System.out.println("Índice inválido.");
-                    }
-                    break;
+                estoque.removerProduto(indiceExcluir);
+                break;
+
 
                 case 11:
                     System.out.println("Encerrando o sistema...");
