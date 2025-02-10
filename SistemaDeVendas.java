@@ -38,10 +38,9 @@ public class SistemaDeVendas {
             System.out.println("8 - Relação de Vendedores");
             System.out.println("9 - Editar Produto");
             System.out.println("10 - Excluir Produto");
-            System.out.println(" - Sair");
+            System.out.println("11 - Sair");
             System.out.print("Escolha uma opção: ");
            
-
             try {
                 opcao = scanner.nextInt();
                 scanner.nextLine();
@@ -154,11 +153,31 @@ public class SistemaDeVendas {
                     }
 
                     System.out.print("Método de pagamento: ");
-                    String metodoPagamento = scanner.nextLine();
+                    System.out.println("1 - Crédito");
+                    System.out.println("2 - Débito");
+                    System.out.println("3 - Pix");
+                    int opcaoPagamento = scanner.nextInt();
+                    scanner.nextLine(); 
+                    MetodoPagamento metodoPagamento = null;
+                    switch (opcaoPagamento) {
+                        case 1:
+                            metodoPagamento = new MetodoPagamento(MetodoPagamento.CREDITO);
+                            break;
+                        case 2:
+                            metodoPagamento = new MetodoPagamento(MetodoPagamento.DEBITO);
+                            break;
+                        case 3:
+                            metodoPagamento = new MetodoPagamento(MetodoPagamento.PIX);
+                            break;
+                        default:
+                            System.out.println("Método de pagamento inválido. Venda cancelada.");
+                            continue;  
+                    }
                     Venda venda = new Venda(clienteEscolhido, vendedorEscolhido, metodoPagamento);
                     for (Produto produto : produtosSelecionados) {
                         venda.adicionarProduto(produto);
                     }
+                    venda.finalizarVenda();
                     vendas.add(venda);
                     System.out.println("Venda realizada com sucesso!");
                     break;

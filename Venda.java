@@ -8,11 +8,11 @@ public class Venda {
     private Vendedor vendedor;
     private ArrayList<Produto> produtos;
     private LocalDate dataVenda;
-    private String metodoPagamento;
+    private MetodoPagamento metodoPagamento;
     private double valorTotal;
     private boolean finalizada;
 
-    public Venda(Cliente cliente, Vendedor vendedor, String metodoPagamento) {
+    public Venda(Cliente cliente, Vendedor vendedor, MetodoPagamento metodoPagamento) {
         this.id = UUID.randomUUID().toString();
         this.cliente = cliente;
         this.vendedor = vendedor;
@@ -51,7 +51,7 @@ public class Venda {
         detalhes.append("Data: " + dataVenda + "\n");
         detalhes.append("Cliente: " + cliente.getNome() + "\n");
         detalhes.append("Vendedor: " + vendedor.getNome() + "\n");
-        detalhes.append("Método de Pagamento: " + metodoPagamento + "\n");
+        detalhes.append("Método de Pagamento: " + metodoPagamento.toString() + "\n");
         detalhes.append("Status: " + (finalizada ? "Finalizada" : "Pendente") + "\n");
         detalhes.append("Produtos: \n");
         for (Produto p : produtos) {
